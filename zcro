@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if [ $# -lt 2 ]
+then
+  echo "You must provide the repo and version you'd like to review"
+  exit
+fi
+
+left=~/z/hg-prist/$1
+rver=$2
+lver=`expr $rver - 1`
+right=~/z/hg-prist-zcro/$1
+
+pushd $left > /dev/null
+hg pull
+hg update -r $lver
+popd > /dev/null
+pushd $right > /dev/null
+hg pull
+hg update -r $rver
+popd > /dev/null
+
+echo launching diff utility...
+opendiff-w $left $right

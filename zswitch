@@ -1,0 +1,7 @@
+cd ~/z/hg
+rm server
+rm appserver
+rm webserver
+ln -s server-$1 server
+ln -s webserver-$1 webserver
+ln -s appserver-$1 appserver
