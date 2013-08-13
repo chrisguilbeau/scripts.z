@@ -1,2 +1,2 @@
 #!/bin/bash
-hg clone ssh://cg@dev.zogotech.com/hg-repo/$1 $2
+hg clone ssh://cg@austin.zogotech.com/hg-repo/$1 $2

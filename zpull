@@ -1,0 +1,13 @@
+#!/bin/bash
+
+for base in "hg-prist" "hg"
+do
+    for proj in "appserver" "webserver" "server"
+    do
+        echo ~/z/$base/$proj
+        pushd ~/z/$base/$proj > /dev/null
+        hg pull --quiet
+        hg update --quiet
+        popd  > /dev/null
+    done
+done

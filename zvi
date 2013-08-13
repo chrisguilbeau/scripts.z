@@ -1,0 +1,4 @@
+#!/bin/bash
+pushd ~/z/hg/$1
+ctags -R --exclude=tiny_mce --exclude=jquery
+vi .

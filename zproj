@@ -1,0 +1,24 @@
+#!/bin/bash
+[ "$#" -eq 2 ] || echo "Usage: zcloneproj <codebase> <name>"
+[ "$#" -eq 2 ] || exit 1
+# First delete the old ones if they exist
+rm -rf ~/z/hg-prist/$2 ~/z/hg/$2
+# Create the new project folders
+mkdir -p ~/z/hg-prist/$2 ~/z/hg/$2
+# All the prist folder needs is symbolic links
+pushd ~/z/hg-prist/$2
+ln -s ../server-$1
+ln -s ../webserver-$1
+ln -s ../appserver-$1
+popd
+# The dev folder actually needs a copy of the code to modify
+pushd ~/z/hg/$2
+cp -r ../../hg-prist/server-$1 .
+cp -r ../../hg-prist/webserver-$1 .
+cp -r ../../hg-prist/appserver-$1 .
+popd
+# echo $1 >> ~/z/codebase
+zswitch $1 $2
+zpull
+cd ~/z/hg/$2
+subl -n .

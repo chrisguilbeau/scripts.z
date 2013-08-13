@@ -9,20 +9,14 @@ fi
 dev=~/z/hg/$1
 prist=~/z/hg-prist/$1
 
-for dir in "$prist" "$dev"
-do
-	echo updating $dir...
-	pushd $dir > /dev/null
-	hg pull
-	hg update
-	popd > /dev/null
-done
+zpull
 
 echo launching diff utility...
-# opendiff $prist $dev
-difffork $prist $dev -w
+opendiff $prist $dev
+# difffork $prist $dev -w
 # meld $prist $dev
 # kdiff3 --L1 hg --L2 dev $prist $dev
-# ksdiff -- $prist $dev
+# ksdiff $prist $dev
 # chdiff --wait $prist $dev
 # twdiff --flatten-folders --text-files-only --wait --case-sensitive $prist $dev
+# diffmerge --nosplash --title1="zlinux" --title2="local" $prist $dev
