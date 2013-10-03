@@ -1,0 +1,43 @@
+#!/usr/bin/env python
+from subprocess import call
+
+FREE_RDP_BIN = '~/Desktop/MacFreeRDP.app/Contents/MacOS/MacFreeRdp'
+
+class Cnn(object):
+    def __init__(
+        self, server, port=3389, username='username', size="1024x768"):
+        self.server = server
+        self.port = port
+        self.username = username
+        self.size = size
+    @property
+    def exe(self):
+        return '{} /v:{} /u:{} /size:{} /cert-ignore'.format(
+            FREE_RDP_BIN,
+            self.server,
+            self.username,
+            self.size,
+            )
+    def __repr__(self):
+        return "{}@{}:{} {}".format(
+            self.username,
+            self.server,
+            self.port,
+            self.size,
+            )
+
+cnns = [
+    Cnn('conan.ztaustin.local', username='cguilbeau'),
+    Cnn('support.ztaustin.local', username='cguilbeau'),
+    Cnn('dev-cg.ztaustin.local', username='cguilbeau'),
+    Cnn('qa1.ztaustin.local', username='cguilbeau'),
+    ]
+
+
+for i,cnn in enumerate(cnns):
+    print i, cnn
+print "which one?"
+choice = raw_input()
+exe = cnns[int(choice)].exe
+print 'cd /Users/cg/Desktop/MacFreeRDP.app/Contents/MacOS && ' + exe
+call(exe, shell=True)
