@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from subprocess import call
+
 FREE_RDP_BIN = '/Applications/MacFreeRDP.app/Contents/MacOS/MacFreeRDP'
 
 class Cnn(object):
