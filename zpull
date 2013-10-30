@@ -1,13 +1,18 @@
 #!/bin/bash
+[ "$#" -eq 1 ] || echo "Usage: zpull name"
+[ "$#" -eq 1 ] || exit 1
 
-for base in "hg-prist" "hg"
+for proj in "proj" "proj-prist"
 do
-    for proj in "appserver" "webserver" "server"
+    echo "$proj:"
+    for dir in ~/z/$proj/$1/*
     do
-        echo ~/z/$base/$proj
-        pushd ~/z/$base/$proj > /dev/null
-        hg pull --quiet
-        hg update --quiet
-        popd  > /dev/null
+        if [ -d "$dir" ]; then
+            echo -e "\t$dir"
+            pushd $dir > /dev/null
+            hg pull --quiet
+            hg update --quiet
+            popd > /dev/null
+        fi
     done
 done

@@ -1,0 +1,34 @@
+#!/usr/bin/env python
+from os import walk
+from os.path import join
+from getopt import getopt
+import sys
+from fnmatch import filter
+
+def getFiles(path):
+    for root, dirs, files in walk(path):
+        for f in files:
+            name = join(root, f)
+            find = name.find
+            if (
+                find('/.hg/') == -1 and
+                find('/tiny_mce/') == -1 and
+                find('/jquery/') == -1
+                ):
+                yield name
+
+def getLines(path):
+    with open(path, 'ro') as f:
+        for line in f:
+            yield line
+
+def zeol(path, patterns="*"):
+    for pattern in patterns:
+        for f in filter(getFiles(path), pattern):
+            for line in getLines(f):
+                if not line.endswith('\r\n'):
+                    print f
+                    break
+
+if __name__ == '__main__':
+    zeol('.', ['*.py', '*.js', '*.css'])

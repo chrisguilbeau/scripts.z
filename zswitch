@@ -1,16 +1,6 @@
 #!/bin/bash
-[ "$#" -eq 2 ] || echo "Usage: zswitch level name"
-[ "$#" -eq 2 ] || exit 1
-
-for base in "hg-prist" "hg"
-do
-    pushd ~/z/$base > /dev/null
-    rm server
-    rm appserver
-    rm webserver
-    ln -s $2/server-$1 server
-    ln -s $2/webserver-$1 webserver
-    ln -s $2/appserver-$1 appserver
-    ls -la appserver webserver server | grep -oG "\w*server ->.*"
-    popd > /dev/null
-done
+pushd ~/z
+rm current
+ln -s ~/z/proj/$1 current
+ls -la
+popd

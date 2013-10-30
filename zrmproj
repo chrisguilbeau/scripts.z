@@ -1,0 +1,8 @@
+#!/bin/bash
+[ "$#" -eq 1 ] || echo "Usage: zrmproj name"
+[ "$#" -eq 1 ] || exit 1
+
+for proj in "proj" "proj-prist"
+do
+    rm -rf ~/z/$proj/$1
+done

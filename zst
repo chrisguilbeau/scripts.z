@@ -1,4 +1,4 @@
 #!/bin/bash
 cd ~/z/current
 ztag
-vi .
+st -n .

@@ -1,0 +1,67 @@
+#!/usr/bin/env python
+from subprocess import call
+FREE_RDP_BIN = '/Applications/MacFreeRDP.app/Contents/MacOS/MacFreeRDP'
+
+class Cnn(object):
+    def __init__(
+        self, server, title=None, port=3389, username='username', size="1024x768"):
+        self.server = server
+        self.title = title
+        self.port = port
+        self.username = username
+        self.size = size
+    @property
+    def exe(self):
+        return '{} /v:{} /u:{} /size:{} /t:"{}" /cert-ignore'.format(
+            FREE_RDP_BIN,
+            self.server,
+            self.username,
+            self.size,
+            self.title,
+            )
+    def __repr__(self):
+        return "{} - {}@{}:{} {}".format(
+            self.title or '',
+            self.username,
+            self.server,
+            self.port,
+            self.size,
+            )
+
+def cnnzt(server, title=None, port=3389, username='cguilbeau'):
+    return Cnn(
+        server=server + '.ztaustin.local',
+        title=title or server,
+        username=username,
+        port=port,
+        )
+
+def cnnztssh(server, port):
+    return cnnzt(
+        server=server,
+        port=port,
+        title='SSH_%s' % server,
+        )
+
+cnns = [
+    cnnzt(server='conan'),
+    cnnzt(server='dev-cg', username='cg'),
+    cnnzt(server='dev-cg'),
+    cnnzt(server='t3500'),
+    cnnzt(server='support'),
+    cnnzt(server='qa1'),
+    cnnzt(server='qa1', username='zogotech'),
+    cnnztssh(server='conan', port=33890),
+    cnnztssh(server='dev-cg', port=33891),
+    cnnztssh(server='support', port=33893),
+    cnnztssh(server='qa1', port=33892),
+    ]
+
+
+for i,cnn in enumerate(cnns):
+    print i, cnn
+print "which one? ",
+choice = raw_input()
+exe = cnns[int(choice)].exe
+print exe
+call(exe, shell=True)
