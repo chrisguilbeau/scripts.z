@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 from subprocess import call
+from sys import argv
 
 FREE_RDP_BIN = '/Applications/MacFreeRDP.app/Contents/MacOS/MacFreeRDP'
 
 class Cnn(object):
     def __init__(
-        self, server, title=None, port=3389, username='username', size="1024x768"):
+            self, server, title=None, port=3389, username='username',
+            size="1024x768"):
         self.server = server
         self.title = title
         self.port = port
@@ -52,17 +54,21 @@ cnns = [
     cnnzt(server='support'),
     cnnzt(server='qa1'),
     cnnzt(server='qa1', username='zogotech'),
+    cnnzt(server='winXP'),
+    cnnzt(server='winXP', username='cg'),
     cnnztssh(server='conan', port=33890),
     cnnztssh(server='dev-cg', port=33891),
     cnnztssh(server='support', port=33893),
     cnnztssh(server='qa1', port=33892),
     ]
 
-
-for i,cnn in enumerate(cnns):
-    print i, cnn
-print "which one? ",
-choice = raw_input()
-exe = cnns[int(choice)].exe
-print exe
-call(exe, shell=True)
+if len(argv) == 2:
+    call(cnnzt(server=argv[1]).exe, shell=True)
+else:
+    for i,cnn in enumerate(cnns):
+        print i, cnn
+    print "which one? ",
+    choice = raw_input()
+    exe = cnns[int(choice)].exe
+    print exe
+    call(exe, shell=True)
